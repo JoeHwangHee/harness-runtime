@@ -7,8 +7,14 @@
 # 포함: .ai-harness/ · .claude/ · .codex/ · AGENTS.md
 # 제외: scripts/bench/compare/(제3자 비교 도구) · *-workspace/(스킬 개발 워크스페이스)
 #       · evals/(스킬 회귀 픽스처) · skills/*-dev/(dev 전용 스킬, 예: 배포) · Codex 크레덴셜
+#
+# 모드:
+#   (기본)   이식 풋프린트 — 기존 host에 들어가는 최소셋. setup.sh·README 제외.
+#   --dist   런타임 배포본 — 위 + greenfield 진입점(setup.sh·README.md). 런타임 레포 발행용.
 set -euo pipefail
-HROOT="${1:-$PWD}"; HROOT="$(cd -- "$HROOT" && pwd)"
+DIST=0; ARGS=()
+for a in "$@"; do case "$a" in --dist) DIST=1 ;; *) ARGS+=("$a") ;; esac; done
+HROOT="${ARGS[0]:-$PWD}"; HROOT="$(cd -- "$HROOT" && pwd)"
 cd "$HROOT"
 for d in .ai-harness .claude .codex; do
   [ -d "$d" ] || continue
@@ -23,3 +29,8 @@ for d in .ai-harness .claude .codex; do
     -not -path '*.codex/*.pem'
 done
 if [ -f AGENTS.md ]; then printf '%s\n' AGENTS.md; fi
+if [ "$DIST" = "1" ]; then
+  for f in setup.sh README.md; do
+    if [ -f "$f" ]; then printf '%s\n' "$f"; fi
+  done
+fi
