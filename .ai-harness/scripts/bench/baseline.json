@@ -1,0 +1,9 @@
+{
+  "e2e_suites_pass": true,
+  "e2e_assertions": 119,
+  "provenance_rate": 1.0,
+  "unfireable_block_rate": 0.0,
+  "stale_detection_works": true,
+  "parallelism_ratio": 2.0,
+  "parallelism_max_width": 3
+}

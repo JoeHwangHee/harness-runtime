@@ -1,0 +1,12 @@
+# GENERATED FILE: edit `.ai-harness/harness-contract.md` / .claude/settings.json and rerun .ai-harness/scripts/generate_codex_derivatives.sh
+# sot_hash: sha256:3601b25bd28b57fcfcee14a1b30a8a9ae06c7bb876f21317b685f33ff5f2b131
+# settings_hash: sha256:e9cbf09274481e10fdb2347ebf1c680c65dd6c624939bc8be942d835de66e737
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+project_doc_fallback_filenames = ["AGENTS.md"]
+project_doc_max_bytes = 32768
+
+[features]
+codex_hooks = true
+hooks = true

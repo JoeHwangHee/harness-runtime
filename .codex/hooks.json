@@ -1,0 +1,45 @@
+{
+  "//": [
+    "GENERATED - Codex mirrors only supported PreToolUse events; regenerate to update.",
+    "sot_hash: sha256:3601b25bd28b57fcfcee14a1b30a8a9ae06c7bb876f21317b685f33ff5f2b131",
+    "settings_hash: sha256:e9cbf09274481e10fdb2347ebf1c680c65dd6c624939bc8be942d835de66e737"
+  ],
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/pre-tool-use.sh"
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/tdd-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/plan-rules-guard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/pre-tool-use.sh"
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/pre-commit-verification.sh"
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/plan-rules-guard.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

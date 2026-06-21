@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "id": "rm-rf-root",
+      "subject": "command",
+      "pattern": "rm\\s+(-[rRfF]+\\s+)+/(\\s|$)",
+      "severity": "block",
+      "reason": "refuses rm -rf on filesystem root"
+    },
+    {
+      "id": "rm-rf-home",
+      "subject": "command",
+      "pattern": "rm\\s+(-[rRfF]+\\s+)+(~|\\$HOME)(\\s|/|$)",
+      "severity": "block",
+      "reason": "refuses recursive removal of home"
+    },
+    {
+      "id": "rm-rf-star-dot",
+      "subject": "command",
+      "pattern": "rm\\s+(-[rRfF]+\\s+)+(\\*|\\.|\\.\\.)(\\s|/|$)",
+      "severity": "block",
+      "reason": "refuses recursive removal of wildcard or dot paths"
+    },
+    {
+      "id": "fork-bomb",
+      "subject": "command",
+      "pattern": ":\\s*\\(\\s*\\)\\s*\\{\\s*:\\s*\\|\\s*:\\s*&\\s*\\}\\s*;\\s*:",
+      "severity": "block",
+      "reason": "refuses shell fork bomb"
+    },
+    {
+      "id": "dd-of-device",
+      "subject": "command",
+      "pattern": "dd\\s+.*of=/dev/(sd[a-z]|nvme[0-9]+n[0-9]+|disk[0-9]+)",
+      "severity": "block",
+      "reason": "refuses dd writes to block devices"
+    },
+    {
+      "id": "git-push-force-protected",
+      "subject": "command",
+      "pattern": "git\\s+push\\s+(--force|-f)\\b[^|]*\\b(main|master|release)\\b",
+      "severity": "block",
+      "reason": "refuses force push to protected branches"
+    },
+    {
+      "id": "git-skip-hooks",
+      "subject": "command",
+      "pattern": "git\\s+commit\\b[^|]*--no-verify",
+      "severity": "block",
+      "reason": "refuses commit hook bypass"
+    },
+    {
+      "id": "git-history-rewrite",
+      "subject": "command",
+      "pattern": "git\\s+(reset\\s+--hard\\s+(origin|upstream)/(main|master)|filter-branch|filter-repo)",
+      "severity": "block",
+      "reason": "refuses protected history rewrite"
+    },
+    {
+      "id": "curl-pipe-shell",
+      "subject": "command",
+      "pattern": "(curl|wget)\\s+[^|]*\\|\\s*(bash|sh|zsh|python3?)\\b",
+      "severity": "block",
+      "reason": "refuses piping downloads into interpreters"
+    },
+    {
+      "id": "sudo",
+      "subject": "command",
+      "pattern": "(^|\\s)sudo(\\s|$)",
+      "severity": "block",
+      "reason": "refuses sudo in automated hook context"
+    },
+    {
+      "id": "chmod-777-recursive",
+      "subject": "command",
+      "pattern": "chmod\\s+-R\\s+777",
+      "severity": "warn",
+      "reason": "warns on recursive world-writable permissions"
+    },
+    {
+      "id": "write-outside-root",
+      "subject": "path",
+      "pattern": "^/(etc|System|Library|usr|bin|sbin|var|private)/",
+      "severity": "block",
+      "reason": "refuses writes to protected system paths"
+    },
+    {
+      "id": "write-dotenv",
+      "subject": "path",
+      "pattern": "(^|/)\\.env(\\.[^/]+)?$",
+      "severity": "block",
+      "reason": "refuses writes to dotenv files"
+    },
+    {
+      "id": "write-credentials",
+      "subject": "path",
+      "pattern": "(^|/)credentials(\\.[^/]+)?$",
+      "severity": "block",
+      "reason": "refuses writes to credential files"
+    },
+    {
+      "id": "write-ssh-key",
+      "subject": "path",
+      "pattern": "(^|/)id_(rsa|ed25519)$",
+      "severity": "block",
+      "reason": "refuses writes to SSH private keys"
+    },
+    {
+      "id": "write-key-material",
+      "subject": "path",
+      "pattern": "\\.(pem|key|p12)$",
+      "severity": "block",
+      "reason": "refuses writes to key material"
+    },
+    {
+      "id": "write-git-internal",
+      "subject": "path",
+      "pattern": "(^|/)\\.git/(config|hooks/|refs/|objects/)",
+      "severity": "block",
+      "reason": "refuses writes to git internals"
+    },
+    {
+      "id": "write-secrets-dir",
+      "subject": "path",
+      "pattern": "(^|/)(secrets|\\.aws)/",
+      "severity": "block",
+      "reason": "refuses writes to secrets directories"
+    }
+  ]
+}
